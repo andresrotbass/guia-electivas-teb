@@ -78,6 +78,15 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.6);
         }
 
+        .nav-btn.tutorial-btn {
+            background: linear-gradient(135deg, #ffa500 0%, #ff6b6b 100%);
+        }
+
+        .nav-btn.tutorial-btn:hover {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
         .section {
             display: none;
         }
@@ -104,6 +113,116 @@
             font-size: 1.8em;
             border-bottom: 3px solid #667eea;
             padding-bottom: 10px;
+        }
+
+        /* Modal para video */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            width: 90%;
+            max-width: 900px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #ff7e5f 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.3em;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8em;
+            cursor: pointer;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+            opacity: 0.8;
+        }
+
+        .modal-body {
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            background: white;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .modal-footer a {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .modal-footer a:hover {
+            background: #ff7e5f;
+            transform: translateY(-2px);
         }
 
         /* Todas las electivas */
@@ -354,6 +473,30 @@
             transform: rotate(180deg);
         }
 
+        .teb-footer {
+            padding: 20px;
+            text-align: center;
+            background: #f8f9fa;
+            border-top: 2px solid #e0e0e0;
+            margin-top: 40px;
+        }
+
+        .teb-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            color: white;
+            background: #667eea;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .teb-link:hover {
+            background: #ff7e5f;
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 1.5em;
@@ -369,6 +512,15 @@
 
             .focus-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-width: 100%;
+            }
+
+            .modal-header h2 {
+                font-size: 1.1em;
             }
         }
     </style>
@@ -390,6 +542,9 @@
                 </button>
                 <button class="nav-btn" onclick="showSection('by-focus')">
                     Electivas por enfoque
+                </button>
+                <button class="nav-btn tutorial-btn" onclick="openTutorialModal()">
+                    Tutorial en vídeo
                 </button>
             </div>
 
@@ -561,6 +716,44 @@
                 <h2>Electivas por enfoque</h2>
                 <div class="focus-grid" id="focus-grid"></div>
             </div>
+
+            <!-- Footer con link a TEB -->
+            <div class="teb-footer">
+                <p style="color: #666; margin-bottom: 10px;">¿Quieres saber más sobre nuestro programa?</p>
+                <a href="https://www.tuexperienciabroadway.com/" target="_blank" class="teb-link">
+                    Visita la web de TEB MP
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para el tutorial -->
+    <div id="tutorialModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Tutorial - Selecciona tus electivas</h2>
+                <button class="close-btn" onclick="closeTutorialModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/hwUaWDqStoY" 
+                            title="Tutorial para seleccionar tus electivas en la web de TEB" 
+                            allowfullscreen="" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                    </iframe>
+                </div>
+                <p style="color: #666; font-size: 0.95em;">
+                    En este tutorial aprenderás cómo seleccionar las electivas que mejor se adapten a tu perfil de músico en el programa de TEB.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="https://www.tuexperienciabroadway.com/" target="_blank">
+                    Ir a la web de TEB MP
+                </a>
+                <a href="javascript:void(0)" onclick="closeTutorialModal()">
+                    Cerrar
+                </a>
+            </div>
         </div>
     </div>
 
@@ -731,7 +924,7 @@
             document.getElementById(sectionId).classList.add('active');
 
             // Actualizar botones activos
-            document.querySelectorAll('.nav-btn').forEach(btn => {
+            document.querySelectorAll('.nav-btn:not(.tutorial-btn)').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
@@ -809,6 +1002,23 @@
 
             // Mostrar la seleccionada
             document.getElementById(recId).style.display = 'block';
+        }
+
+        // Funciones para el modal del tutorial
+        function openTutorialModal() {
+            document.getElementById('tutorialModal').classList.add('active');
+        }
+
+        function closeTutorialModal() {
+            document.getElementById('tutorialModal').classList.remove('active');
+        }
+
+        // Cerrar modal al hacer click fuera del contenido
+        window.onclick = function(event) {
+            const modal = document.getElementById('tutorialModal');
+            if (event.target === modal) {
+                closeTutorialModal();
+            }
         }
     </script>
 </body>
